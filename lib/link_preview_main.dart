@@ -17,10 +17,16 @@ class _LinkPreviewMainState extends State<LinkPreviewMain> {
   final Map<String, bool> isFetchingLinkData = {"state": false};
 
   late LinkPreviewer previewer;
+  LinkPreviewData? _previewData;
 
   @override
   initState() {
     previewer = LinkPreviewer(url: widget.url);
+    previewer.previewData?.then((onValue) {
+      if (onValue != null) {
+        _previewData = onValue;
+      }
+    });
     super.initState();
   }
 
@@ -42,56 +48,72 @@ class _LinkPreviewMainState extends State<LinkPreviewMain> {
           await launch(widget.url);
         }
       },
-      child: FutureBuilder(
-        future: handleLinkFetching(widget.url),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.data != null &&
-              isFetchingLinkData['state'] == false) {
-            return Card(
-                child: snapshot.data?.fetchingState == DataFetchingState.failed
-                    ? const Center(child: Text('Failed to load preview'))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (snapshot.data?.imageUrl != null)
-                            ClipRRect(
-                              borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(10)),
-                              child: Image.network(
-                                snapshot.data!.imageUrl!,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container();
-                                },
-                              ),
-                            ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (snapshot.data?.title != null)
-                                  Text(snapshot.data?.title ?? widget.url,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                if (snapshot.data?.description != null)
-                                  Text(snapshot.data?.description ?? widget.url,
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 14)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ));
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
-      ),
+      child: _previewData == null
+          ? FutureBuilder(
+              future: handleLinkFetching(widget.url),
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.data != null &&
+                    isFetchingLinkData['state'] == false) {
+                  return Card(
+                      child: snapshot.data?.fetchingState ==
+                                  DataFetchingState.failed ||
+                              snapshot.data == null
+                          ? const Center(child: Text('Failed to load preview'))
+                          : _PreviewWidget(
+                              previewData: snapshot.data!,
+                            ));
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            )
+          // : Text("JUST TESTING")
+          : _PreviewWidget(previewData: _previewData!),
+    );
+  }
+}
+
+class _PreviewWidget extends StatelessWidget {
+  final LinkPreviewData previewData;
+
+  const _PreviewWidget({required this.previewData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (previewData.imageUrl != null)
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+            child: Image.network(
+              previewData.imageUrl!,
+              errorBuilder: (context, error, stackTrace) {
+                return Container();
+              },
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (previewData.title.isNotEmpty)
+                Text(previewData.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),
+              if (previewData.description.isNotEmpty)
+                Text(previewData.description,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

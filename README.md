@@ -15,9 +15,11 @@ and the Flutter guide for
 </p>
 A Flutter package for creating rich link previews and managing various URL utilities effortlessly.
 
-[![Pub Version](https://img.shields.io/pub/v/link_utils)](https://pub.dev/packages/link_utils)
-[![Pub Points](https://img.shields.io/pub/points/link_utils)](https://pub.dev/packages/link_utils/score)
-[![Build Status](https://github.com/IsaiahTek/link_utils/workflows/build/badge.svg)](https://github.com/IsaiahTek/link_utils/actions)
+[![pub package](https://img.shields.io/pub/v/link_utils.svg)](https://pub.dev/packages/link_utils)
+[![pub points](https://img.shields.io/pub/points/link_utils)](https://pub.dev/packages/link_utils/score)
+[![popularity](https://img.shields.io/pub/popularity/link_utils)](https://pub.dev/packages/link_utils/score)
+[![likes](https://img.shields.io/pub/likes/link_utils)](https://pub.dev/packages/link_utils/score)
+<!-- [![Build Status](https://github.com/IsaiahTek/link_utils/workflows/build/badge.svg)](https://github.com/IsaiahTek/link_utils/actions) -->
 
 
 ## Features

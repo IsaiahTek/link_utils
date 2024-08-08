@@ -21,10 +21,16 @@ class _LinkPreviewTiledState extends State<LinkPreviewTile> {
   final Map<String, bool> isFetchingLinkData = {"state": false};
 
   late LinkPreviewer previewer;
+  LinkPreviewData? _previewData;
 
   @override
   initState() {
     previewer = LinkPreviewer(url: widget.url);
+    previewer.previewData?.then((onValue) {
+      if (onValue != null) {
+        _previewData = onValue;
+      }
+    });
     super.initState();
   }
 
@@ -46,66 +52,78 @@ class _LinkPreviewTiledState extends State<LinkPreviewTile> {
           await launch(widget.url);
         }
       },
-      child: FutureBuilder(
+      child: _previewData == null
+      ?FutureBuilder(
         future: handleLinkFetching(widget.url),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.data != null &&
               isFetchingLinkData['state'] == false) {
             return Card(
-                child: snapshot.data?.fetchingState == DataFetchingState.failed
-                    ? const Center(child: Text('Failed to load preview'))
-                    : Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (snapshot.data?.imageUrl != null)
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * .3,
-                              height: 120,
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.horizontal(
-                                  left: Radius.circular(10),
-                                ),
-                                child: Image.network(
-                                  fit: BoxFit.fill,
-                                  snapshot.data!.imageUrl!,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container();
-                                  },
-                                ),
-                              ),
-                            ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (snapshot.data?.title != null)
-                                    Text(snapshot.data?.title ?? widget.url,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold)),
-                                  if (snapshot.data?.description != null)
-                                    Text(
-                                        snapshot.data?.description ??
-                                            widget.url,
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 14)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ));
+                child:
+                    snapshot.data?.fetchingState == DataFetchingState.failed ||
+                            snapshot.data == null
+                        ? const Center(child: Text('Failed to load preview'))
+                        : _PreviewWidgetTile(previewData: snapshot.data!));
           } else {
             return const CircularProgressIndicator();
           }
         },
-      ),
+      )
+      : _PreviewWidgetTile(previewData: _previewData!),
+    );
+  }
+}
+
+class _PreviewWidgetTile extends StatelessWidget {
+  final LinkPreviewData previewData;
+
+  const _PreviewWidgetTile({required this.previewData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (previewData.imageUrl != null)
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * .3,
+            height: 120,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.horizontal(
+                left: Radius.circular(10),
+              ),
+              child: Image.network(
+                fit: BoxFit.fill,
+                previewData.imageUrl!,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container();
+                },
+              ),
+            ),
+          ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (previewData.title.isNotEmpty)
+                  Text(previewData.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)),
+                if (previewData.description.isNotEmpty)
+                  Text(previewData.description,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 14)),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
