@@ -11,8 +11,6 @@ topics:
   - link
   - url
 
-publish_to: 'none'
-
 environment:
   sdk: '>=3.4.4 <4.0.0'
   flutter: ">=1.17.0"
