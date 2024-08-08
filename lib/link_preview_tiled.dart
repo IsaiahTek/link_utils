@@ -6,18 +6,18 @@ part of 'link_utils.dart';
 /// The widget displays the link preview image to the left and the title and descriptio/content to the right
 
 /// This class is only to be modified by package maintainers/contributors.
-class LinkPreviewTiled extends StatefulWidget {
+class LinkPreviewTile extends StatefulWidget {
   /// The uri/url text
   final String url;
 
   /// Constructor
-  const LinkPreviewTiled({super.key, required this.url});
+  const LinkPreviewTile({super.key, required this.url});
 
   @override
-  State<LinkPreviewTiled> createState() => _LinkPreviewTiledState();
+  State<LinkPreviewTile> createState() => _LinkPreviewTiledState();
 }
 
-class _LinkPreviewTiledState extends State<LinkPreviewTiled> {
+class _LinkPreviewTiledState extends State<LinkPreviewTile> {
   final Map<String, bool> isFetchingLinkData = {"state": false};
 
   late LinkPreviewer previewer;
@@ -83,7 +83,8 @@ class _LinkPreviewTiledState extends State<LinkPreviewTiled> {
                                 children: [
                                   if (snapshot.data?.title != null)
                                     Text(snapshot.data?.title ?? widget.url,
-                                  maxLines: 1,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold)),
@@ -92,6 +93,7 @@ class _LinkPreviewTiledState extends State<LinkPreviewTiled> {
                                         snapshot.data?.description ??
                                             widget.url,
                                         maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(fontSize: 14)),
                                 ],
                               ),

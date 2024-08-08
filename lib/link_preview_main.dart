@@ -72,13 +72,15 @@ class _LinkPreviewMainState extends State<LinkPreviewMain> {
                               children: [
                                 if (snapshot.data?.title != null)
                                   Text(snapshot.data?.title ?? widget.url,
-                                  maxLines: 1,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold)),
                                 if (snapshot.data?.description != null)
                                   Text(snapshot.data?.description ?? widget.url,
                                       maxLines: 4,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 14)),
                               ],
                             ),

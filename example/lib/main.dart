@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'Link Utils',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 19, 19, 19)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 19, 19, 19)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Link Utils Example'),
@@ -74,30 +75,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 maxLines: null,
                 controller: _textEditingController,
                 decoration: const InputDecoration(
-                  hintText: "Enter a link here",
-                  hintStyle: TextStyle(color: Colors.white)
-                ),
+                    hintText: "Enter a link here",
+                    hintStyle: TextStyle(color: Colors.white)),
                 style: TextStyle(
                   color: Theme.of(context).primaryColorLight,
-                  
                 ),
               ),
             ),
             if (url != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Example of LinkPreviewTile", style: TextStyle(fontSize: 22),),
-                  LinkPreviewTiled(url: url!),
-                  const SizedBox(height: 40,),
-
-                  const Text("Example of LinkPreviewMain", style: TextStyle(fontSize: 22),),
-                  LinkPreviewMain(url: url!)
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Example of LinkPreviewTile",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    LinkPreviewTile(url: url!),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    const Text(
+                      "Example of LinkPreviewMain",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    LinkPreviewMain(url: url!)
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

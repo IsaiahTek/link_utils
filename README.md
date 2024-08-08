@@ -15,6 +15,11 @@ and the Flutter guide for
 </p>
 A Flutter package for creating rich link previews and managing various URL utilities effortlessly.
 
+[![Pub Version](https://img.shields.io/pub/v/link_utils)](https://pub.dev/packages/link_utils)
+[![Pub Points](https://img.shields.io/pub/points/link_utils)](https://pub.dev/packages/link_utils/score)
+[![Build Status](https://github.com/IsaiahTek/link_utils/workflows/build/badge.svg)](https://github.com/IsaiahTek/link_utils/actions)
+
+
 ## Features
 
 - Generate rich link previews from URLs.
@@ -97,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (url != null) LinkPreviewTiled(url: url!),
+            if (url != null) LinkPreviewTile(url: url!),
             Container(
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(horizontal: 10),
