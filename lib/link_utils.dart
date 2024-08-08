@@ -9,4 +9,4 @@ import 'package:flutter/material.dart';
 
 part 'utils.dart';
 part 'link_preview_main.dart';
-part 'link_preview_tiled.dart';
+part 'link_preview_tile.dart';
