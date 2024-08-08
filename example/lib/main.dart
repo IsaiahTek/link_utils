@@ -7,16 +7,17 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Link Utils',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 19, 19, 19)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Link Utils Example'),
     );
   }
 }
@@ -61,22 +62,42 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (url != null) LinkPreviewMain(url: url!),
             Container(
               padding: const EdgeInsets.all(20),
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
-              // In this example we've used a dynamic text field and we used a text editing controller.
               child: TextField(
                 minLines: 1,
                 maxLines: null,
                 controller: _textEditingController,
-                style: TextStyle(color: Theme.of(context).primaryColorLight),
+                decoration: const InputDecoration(
+                  hintText: "Enter a link here",
+                  hintStyle: TextStyle(color: Colors.white)
+                ),
+                style: TextStyle(
+                  color: Theme.of(context).primaryColorLight,
+                  
+                ),
               ),
-            )
+            ),
+            if (url != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Example of LinkPreviewTile", style: TextStyle(fontSize: 22),),
+                  LinkPreviewTiled(url: url!),
+                  const SizedBox(height: 40,),
+
+                  const Text("Example of LinkPreviewMain", style: TextStyle(fontSize: 22),),
+                  LinkPreviewMain(url: url!)
+                ],
+              ),
+            ),
           ],
         ),
       ),

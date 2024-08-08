@@ -1,7 +1,17 @@
 name: link_utils
-description: "A new Flutter package project."
+
+description: "Flutter package for previewing link/urls and manage URL utilities effortlessly. Enhance user experience with seamless link handling and preview generation."
+
 version: 0.0.1
-homepage:
+
+repository: 'https://github.com/IsaiahTek/link_utils.git'
+
+topics:
+  - 'link preview'
+  - link
+  - url
+
+publish_to: 'none'
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
@@ -14,7 +24,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

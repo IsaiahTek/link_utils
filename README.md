@@ -10,31 +10,120 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+<p align="center">
+  <img alt="Chat Image" src="https://raw.githubusercontent.com/IsaiahTek/link_utils/main/images/link_utils_preview.png" />
+</p>
+A Flutter package for creating rich link previews and managing various URL utilities effortlessly.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Generate rich link previews from URLs.
+- Extract metadata such as title, description, and images.
+- Validate and manipulate URLs easily.
 
-## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Getting Started
+To get started with flutter_chatflow, check out the documentation for installation instructions, usage guides, and examples.
+
+### Installation
+
+Easiest way is to run the `flutter pub add flutter_chatflow`
+
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
 
 ```dart
-const like = 'sample';
+import 'package:flutter/material.dart';
+import 'package:link_utils/link_utils.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Link Utils Example App'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _textEditingController = TextEditingController();
+
+  String? url;
+
+  @override
+  void initState() {
+    _textEditingController.addListener(() {
+      // `getUrls` is a util function used to search for urls in a given text
+      String? url = getUrls(_textEditingController.text).firstOrNull;
+      // By default, a change event is fired when the user taps different parts of the text field. So we ensure we're only setting the url when a user changes the first url text and not any other text
+      if (this.url != url) {
+        setState(() {
+          this.url = url;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (url != null) LinkPreviewTiled(url: url!),
+            Container(
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              // In this example we've used a dynamic text field and we used a text editing controller.
+              child: TextField(
+                minLines: 1,
+                maxLines: null,
+                controller: _textEditingController,
+                style: TextStyle(color: Theme.of(context).primaryColorLight),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 ```
 
-## Additional information
+## Contributing
+Contributions are welcome! Please submit a pull request or open an issue on GitHub to discuss what you would like to change.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
-# link_utils
+## License
+This project is released under the [BSD license.](https://github.com/IsaiahTek/link_utils/blob/main/LICENSE)
