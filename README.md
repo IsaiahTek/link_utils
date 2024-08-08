@@ -34,7 +34,7 @@ To get started with flutter_chatflow, check out the documentation for installati
 
 ### Installation
 
-Easiest way is to run the `flutter pub add flutter_chatflow`
+Easiest way is to run the `flutter pub add link_utils`
 
 
 ## Usage
