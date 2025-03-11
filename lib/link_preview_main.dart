@@ -69,7 +69,7 @@ class _LinkPreviewMainState extends State<LinkPreviewMain> {
               },
             )
           // : Text("JUST TESTING")
-          : _PreviewWidget(previewData: _previewData!),
+          : Card(child: _PreviewWidget(previewData: _previewData!)),
     );
   }
 }

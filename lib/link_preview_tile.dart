@@ -53,24 +53,24 @@ class _LinkPreviewTiledState extends State<LinkPreviewTile> {
         }
       },
       child: _previewData == null
-      ?FutureBuilder(
-        future: handleLinkFetching(widget.url),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.data != null &&
-              isFetchingLinkData['state'] == false) {
-            return Card(
-                child:
-                    snapshot.data?.fetchingState == DataFetchingState.failed ||
-                            snapshot.data == null
-                        ? const Center(child: Text('Failed to load preview'))
-                        : _PreviewWidgetTile(previewData: snapshot.data!));
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
-      )
-      : _PreviewWidgetTile(previewData: _previewData!),
+          ? FutureBuilder(
+              future: handleLinkFetching(widget.url),
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.data != null &&
+                    isFetchingLinkData['state'] == false) {
+                  return Card(
+                      child: snapshot.data?.fetchingState ==
+                                  DataFetchingState.failed ||
+                              snapshot.data == null
+                          ? const Center(child: Text('Failed to load preview'))
+                          : _PreviewWidgetTile(previewData: snapshot.data!));
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            )
+          : Card(child: _PreviewWidgetTile(previewData: _previewData!)),
     );
   }
 }

@@ -1,3 +1,6 @@
+## 0.0.2
+Fixed minor bugs
+
 ## 0.0.1
 
 * Link(s) in text are searched and returned using the `getUrls()`.
